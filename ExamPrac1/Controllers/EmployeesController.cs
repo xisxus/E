@@ -31,6 +31,34 @@ namespace ExamPrac1.Controllers
             return View(await _context.Employees.ToListAsync());
         }
 
+        public async Task<IActionResult> AGGIndex()
+        {
+            var emp = new AggreateVM();
+
+            await using var con = _context.Database.GetDbConnection();
+            await con.OpenAsync();
+
+            await using var comm = con.CreateCommand();
+            comm.CommandText = "EmpSum";
+            comm.CommandType = CommandType.StoredProcedure;
+
+            await using var reader = await comm.ExecuteReaderAsync();
+
+            if (await reader.ReadAsync())
+            {
+                emp = new AggreateVM()
+                {
+                    TotalEmployees = reader.GetInt32(0),
+                    AvgSalary = reader.GetInt32(1),
+                    TotalSalary = reader.GetInt32(2),
+                    MinSalary = reader.GetInt32(3),
+                    MaxSalary = reader.GetInt32(4),
+                };
+               
+            }
+            return View(emp);
+        }
+
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
         {

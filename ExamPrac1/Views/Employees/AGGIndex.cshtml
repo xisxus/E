@@ -1,0 +1,31 @@
+﻿@model ExamPrac1.Models.AggreateVM
+@{
+    ViewData["Title"] = "AGGIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<h2>Employee Summary</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Total Employees</th>
+            <th>Average Salary</th>
+            <th>Total Salary</th>
+            <th>Minimum Salary</th>
+            <th>Maximum Salary</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.TotalEmployees</td>
+            <td>@Model.AvgSalary</td>
+            <td>@Model.TotalSalary</td>
+            <td>@Model.MinSalary</td>
+            <td>@Model.MaxSalary</td>
+        </tr>
+    </tbody>
+</table>
