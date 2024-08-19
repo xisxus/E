@@ -1,0 +1,108 @@
+﻿@model ExamPrac1.Models.EmpViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Employee</h4>
+<hr />
+<div class="row">
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div class="col-md-4">      
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="JoinDate" class="control-label"></label>
+                <input asp-for="JoinDate" class="form-control" />
+                <span asp-validation-for="JoinDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input type="file" asp-for="ImageFile" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Salary" class="control-label"></label>
+                <input asp-for="Salary" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>      
+         </div>
+
+
+        <div class="col-md-4">
+            <div id="explist">
+                @for (int i = 0; i < Model.Experiences.Count; i++)
+                {
+                    <div class="expitem">
+                        <div class="form-group">
+                            <label asp-for="@Model.Experiences[i].Tittle" class="control-label"></label>
+                            <input asp-for="@Model.Experiences[i].Tittle" class="form-control" />
+                            <span asp-validation-for="@Model.Experiences[i].Tittle" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Experiences[i].Duration" class="control-label"></label>
+                            <input asp-for="@Model.Experiences[i].Duration" class="form-control" />
+                            <span asp-validation-for="@Model.Experiences[i].Duration" class="text-danger"></span>
+                        </div>
+                    
+                        <button type="button" class="btn btn-danger expbtn">remove</button>
+
+                    </div>
+                }
+            </div>
+            <button type="button" class="btn btn-success " onclick="Addexp()">add</button>
+        </div>
+
+
+    </form>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="~/jquery/jquery.min.js"></script>
+    <script>
+        function Addexp() {
+            var index = $('#explist.expitem').length;
+            console.log(index);
+            var newExp = `
+                     <div class="expitem">
+                                <div class="form-group">
+                                            <label for="Experiences[${index}].Tittle" class="control-label"></label>
+                                            <input name="Experiences[${index}].Tittle" class="form-control" />
+                                            <span asp-validation-for="Experiences[${index}].Tittle" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                            <label for="Experiences[${index}].Duration" class="control-label"></label>
+                                            <input name="Experiences[${index}].Duration" class="form-control" />
+                                            <span asp-validation-for="Experiences[${index}].Duration" class="text-danger"></span>
+                                </div>
+
+                                <button type="button" class="btn btn-danger expbtn">remove</button>
+
+                            </div> `;
+            $('#explist').append(newExp)
+        }
+
+        $(document).on('click', '.expbtn', function () {
+            $(this).closest('.expitem').remove();
+        });
+    </script>
+}
